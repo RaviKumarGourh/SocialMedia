@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<script>
+    function validate(){
+        var result = true;
+        var username = document.getElementById("username")
+        var password = document.getElementById("password")
+        var realname = document.getElementById("realname")
+
+        if(username.value.length == 0 || password.value.length == 0 || realname.value.length == 0){
+            result = false
+        }
+        return result
+    }
+</script>
+<style>
+    .container{
+        background-color: gray;
+        border-radius: 30%;
+        height: fit-content;
+        width:fit-content;
+        margin:auto;
+        padding: 50px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        position:absolute;
+        right: 40%;
+        top: 10%;
+        align-items: center;
+    }
+    body{
+        background:red url('https://cdn.pixabay.com/photo/2020/04/12/20/37/abstract-5035778_1280.jpg');
+    }
+    table{
+        margin-left:20px;
+    }
+    h1{
+        margin-left:50px;
+        width:fit-content;
+    }
+    .styleback{
+        background-color:white;
+        border-radius: 20%;
+   
+    }
+    
+</style>
+<body>
+    <div class="container">
+        <h1 class="styleback">Sign Up</h1>
+    <form action="http://localhost:8000/loginapp/save-user/" method="post" onsubmit="return validate()">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td class="styleback">Username</td>
+                <td><input type="text" name="username" id="username" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td class="styleback">Password</td>
+                <td><input type="password" name="password" id="password"></td>
+            </tr>
+            <tr>
+                <td class="styleback">Realname</td>
+                <td><input type="text" name="realname" id="realname" autocomplete="off"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="signup"></td>
+            </tr>
+        </table>
+    </form>
+    </div>
+    <p>{{ errmsg }}</p>
+</body>
+</html>

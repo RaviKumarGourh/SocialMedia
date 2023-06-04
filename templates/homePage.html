@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<style>
+    body{
+        background:red url('https://cdn.pixabay.com/photo/2020/04/12/20/37/abstract-5035778_1280.jpg');
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+    p{
+        background-color: darkblue;
+        color: white;
+        margin:auto;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 10vh;
+        height: fit-contentt;
+        width: fit-content;
+        border-radius: 5%;
+        border:10px;
+        position: abolute;
+        top: 50%;
+        right:30%;
+        align-items: center;
+
+    }
+    .item{
+        background-color: blue;
+        color: whitesmoke;
+        margin:auto;
+        position: absolute;
+        right:5%;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 4vh;
+
+    }
+    .td{
+        background-color: whitesmoke;
+    }
+    .th{
+        background-color: red;
+        color:white;
+    }
+    .table{
+        background-color: green;
+        position: absolute;
+        top:30%;
+        left:10%;
+        font-size: 5vh;
+    }
+    .container2{
+        bottom: 30px;
+        background-color: white;
+        width:fit-content;
+        height:fit-content;
+        position:sticky;
+        bottom: 10px;
+        left:70vw;
+        display:inline-block;
+        border:2px solid gray;
+        border-radius:3%;
+        
+    }
+    .button{
+        height:80px;
+        width:200px;
+        font-size:20px;
+        background-color: black;
+        color: white;
+        border-radius: 60%;
+    }
+    .newsfeed{
+        background-color: white;
+        min-height: 60vh;
+        height:fit-content;
+        width:50vw;
+        margin-left:3vw;
+        border-radius: 5%;
+        padding: 3vh;
+    }
+    .title{
+        background: rgb(94, 92, 92);
+        color:white;
+        height:20px;
+        border:2px solid gray;
+        border-radius:5px;
+        width:fit-content;
+    }
+    .messagefield{
+        margin-top:10px;
+        background: white;
+        color:black;
+        height:fit-content;
+    }
+    .datafield{
+        margin:2%;
+        height:fit-content;
+        border:2px solid black;
+        border-radius:4%;
+    }
+    textarea{
+        height:10vh;
+        width:40vw;
+    }
+</style>
+<script type="text/JavaScript">
+    function AutoRefresh(t){
+        setTimeout("location.reload(true);",t)
+    }
+</script>
+<body">
+    <p>Welcome to Virtual Cage {{ request.session.username }}. </p>
+    <a href="http://localhost:8000/loginapp/logout/" class="item">Log out</a>
+    {% if request.session.username == 'admin' %}
+    <table class="table">
+        <thead>
+            <th class="th">realname</th>
+            <th class="th">username</th>
+            <th class="th">password</th>
+            <th class="th">function</th>
+            <th class="th"><a href="http://localhost:8000/loginapp/deletecdb/">delete Conversations</a></th>
+        </thead>
+        {% for data in userData %}
+        <tr>
+            <td class="td">{{data.realname}}</td>
+            <td class="td">{{data.username}}</td>
+            <td class="td">{{data.password}}</td>
+            <td class="td"><a href="http://localhost:8000/loginapp/delete?username={{data.username}}">delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <div class="newsfeed">
+        {% for data in messages %}
+        <div class="datafield">
+            <div class="title">{{data.username}}</div>
+            <div class="messagefield">{{data.message}}</div>
+        </div>
+        {% endfor %}
+      
+    </div>
+
+    <div class="container2">
+        <form action="http://localhost:8000/loginapp/send/" method="post">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>message</td>
+                </tr>
+                <tr>
+                    <td><textarea name="message"></textarea></td>
+                    <td><input type="submit" value="send" class="button"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    {% endif %}
+</body>
+</html>
